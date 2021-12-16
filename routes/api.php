@@ -24,7 +24,10 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware(['auth:sanctum'])->group(function() {      // sama
 Route::group(['middleware' => 'auth:sanctum'], function() {     // sama
 
-    Route::get('/form', [FormController::class, 'index']);
+    Route::post('/create', [FormController::class, 'create']);
+    Route::get('/edit/{id}', [FormController::class, 'edit']);
+    Route::post('/edit/{id}', [FormController::class, 'update']);
+    Route::get('/delete/{id}', [FormController::class, 'delete']);
     Route::get('/logout', [AuthController::class, 'logout']);
 });
 
