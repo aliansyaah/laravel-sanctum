@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\FormController;
 use App\Http\Controllers\API\ScoreController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,3 +44,23 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/', function () {
     return view('welcome');
 })->name('login');  // sementara bikin route name 'login' utk redirect ketika unauthorized
+
+// Test generate token
+Route::get('test-token', function () {
+    // Generate token dengan all abilities
+    return User::find(1)->createToken('mytoken')->plainTextToken;
+
+    // Generate token dengan ability update
+    // return User::find(1)->createToken('mytoken', ['allow:update'])->plainTextToken;
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('access', function () {
+        // Cek apakah user yg login memiliki akses untuk update
+        if (auth()->user()->tokenCan('allow:update')) {
+            return 'Boleh';
+        } else {
+            return 'Tidak boleh';
+        }
+    });
+});
