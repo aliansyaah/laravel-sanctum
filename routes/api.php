@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\FormController;
+use App\Http\Controllers\API\ScoreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,11 +24,17 @@ use Illuminate\Support\Facades\Route;
 // Endpoint pada group ini jika diakses harus melewati auth sanctum
 // Route::middleware(['auth:sanctum'])->group(function() {      // sama
 Route::group(['middleware' => 'auth:sanctum'], function() {     // sama
-
+    // CRUD student
     Route::post('/create', [FormController::class, 'create']);
     Route::get('/edit/{id}', [FormController::class, 'edit']);
     Route::post('/edit/{id}', [FormController::class, 'update']);
     Route::get('/delete/{id}', [FormController::class, 'delete']);
+
+    // CRUD score related to student
+    Route::post('create-student-score', [ScoreController::class, 'create']);
+    Route::get('data-student/{id}', [ScoreController::class, 'getStudent']);
+    Route::post('data-student/{id}', [ScoreController::class, 'update']);
+
     Route::get('/logout', [AuthController::class, 'logout']);
 });
 

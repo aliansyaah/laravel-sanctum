@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -23,6 +24,10 @@ class AuthController extends Controller
                 // 'message' => 'Password tidak sesuai.'
                 'message' => 'Unauthorized.'
             ], 401);
+            
+            /* throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]); */
         }
 
         $token = $user->createToken('token-name')->plainTextToken;
